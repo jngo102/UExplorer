@@ -13,9 +13,11 @@
         <LangVersion>latest</LangVersion>
         <!-- Change this to the path of your modded HK installation -->
         <HollowKnightRefs>/home/jngo102/.local/share/Steam/steamapps/common/Hollow%20Knight/hollow_knight_Data/Managed</HollowKnightRefs>
+        <!-- <HollowKnightRefs>F:\SteamLibrary\steamapps\common\Hollow Knight\hollow_knight_Data\Managed</HollowKnightRefs>-->
         <LocalRefs>References/</LocalRefs>
         <!-- Change this to the path where you want the ready-to-upload exports to be -->
         <ExportDir>/home/jngo102/HK/Mods/HollowKnight</ExportDir>
+        <!-- <ExportDir>Output</ExportDir> -->
     </PropertyGroup>
     <Target Name="CopyMod" AfterTargets="PostBuildEvent">
         <RemoveDir Directories="$(ExportDir)/$(TargetName)/" />
@@ -25,10 +27,12 @@
         <Copy SourceFiles="$(TargetPath);$(TargetDir)/$(TargetName).pdb" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)/" />
         <Copy SourceFiles="$(LocalRefs)/0Harmony.dll" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)"/>
         <Copy SourceFiles="$(LocalRefs)/UnityExplorer.STANDALONE.Mono.dll" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)"/>
+        <Copy SourceFiles="$(LocalRefs)/UniverseLib.Mono.dll" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)"/>
         <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ExportDir)/$(TargetName)/" />
         <Copy SourceFiles="ReadMe.md;$(TargetPath);$(TargetDir)/$(TargetName).pdb" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
         <Copy SourceFiles="$(LocalRefs)/0Harmony.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/"/>
         <Copy SourceFiles="$(LocalRefs)/UnityExplorer.STANDALONE.Mono.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/"/>
+        <Copy SourceFiles="$(LocalRefs)/UniverseLib.Mono.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/"/>
         
         <ZipDirectory SourceDirectory="$(ExportDir)/$(TargetName)/zip/" DestinationFile="$(ExportDir)/$(TargetName)/$(TargetName).zip" />
         <RemoveDir Directories="$(ExportDir)/$(TargetName)/zip/" />
@@ -38,7 +42,7 @@
         </GetFileHash>
         <WriteLinesToFile File="$(ExportDir)/$(TargetName)/SHA.txt" Lines="@(FilesWithHashes->'%(FileHash)')" Overwrite="true" Encoding="UTF-8" />
         
-        <Exec Command="steam steam://rungameid/367520" />
+        <!-- <Exec Command="steam steam://rungameid/367520" /> -->
     </Target>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <!-- Uncomment this to enabled strong name key signing for releases -->
@@ -46,6 +50,12 @@
         <AssemblyOriginatorKeyFile>sgKey.snk</AssemblyOriginatorKeyFile-->
     </PropertyGroup>
     <ItemGroup>
+        <Reference Include="Mono.Cecil">
+            <HintPath>$(HollowKnightRefs)/Mono.Cecil.dll</HintPath>
+        </Reference>
+        <Reference Include="MonoMod.RuntimeDetour">
+            <HintPath>$(HollowKnightRefs)/MonoMod.RuntimeDetour.dll</HintPath>
+        </Reference>
         <Reference Include="Assembly-CSharp">
             <HintPath>$(HollowKnightRefs)/Assembly-CSharp.dll</HintPath>
         </Reference>
@@ -55,8 +65,17 @@
         <Reference Include="UnityEngine.CoreModule">
             <HintPath>$(HollowKnightRefs)/UnityEngine.CoreModule.dll</HintPath>
         </Reference>
+        <Reference Include="UnityEngine.Physics2DModule">
+            <HintPath>$(HollowKnightRefs)/UnityEngine.Physics2DModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.InputLegacyModule">
+            <HintPath>$(HollowKnightRefs)/UnityEngine.InputLegacyModule.dll</HintPath>
+        </Reference>
         <Reference Include="UnityExplorer.STANDALONE.Mono">
             <HintPath>References/UnityExplorer.STANDALONE.Mono.dll</HintPath>
+        </Reference>
+        <Reference Include="UniverseLib.Mono">
+            <HintPath>References/UniverseLib.Mono.dll</HintPath>
         </Reference>
     </ItemGroup>
     <ItemGroup>
