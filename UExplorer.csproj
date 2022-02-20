@@ -12,12 +12,12 @@
         <OutputPath>bin\$(Configuration)\</OutputPath>
         <LangVersion>latest</LangVersion>
         <!-- Change this to the path of your modded HK installation -->
-        <HollowKnightRefs>/home/jngo102/.local/share/Steam/steamapps/common/Hollow%20Knight/hollow_knight_Data/Managed</HollowKnightRefs>
-        <!-- <HollowKnightRefs>F:\SteamLibrary\steamapps\common\Hollow Knight\hollow_knight_Data\Managed</HollowKnightRefs>-->
+        <!-- <HollowKnightRefs>/home/jngo102/.local/share/Steam/steamapps/common/Hollow%20Knight/hollow_knight_Data/Managed</HollowKnightRefs>-->
+        <HollowKnightRefs>F:\SteamLibrary\steamapps\common\Hollow Knight\hollow_knight_Data\Managed</HollowKnightRefs>
         <LocalRefs>References/</LocalRefs>
         <!-- Change this to the path where you want the ready-to-upload exports to be -->
-        <ExportDir>/home/jngo102/HK/Mods/HollowKnight</ExportDir>
-        <!-- <ExportDir>Output</ExportDir> -->
+        <!--<ExportDir>/home/jngo102/HK/Mods/HollowKnight</ExportDir> -->
+        <ExportDir>Output</ExportDir>
     </PropertyGroup>
     <Target Name="CopyMod" AfterTargets="PostBuildEvent">
         <RemoveDir Directories="$(ExportDir)/$(TargetName)/" />
@@ -27,7 +27,6 @@
         <Copy SourceFiles="$(TargetPath);$(TargetDir)/$(TargetName).pdb" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)/" />
         <Copy SourceFiles="$(LocalRefs)/0Harmony.dll" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)"/>
         <Copy SourceFiles="$(LocalRefs)/UnityExplorer.STANDALONE.Mono.dll" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)"/>
-        <Copy SourceFiles="$(LocalRefs)/UniverseLib.Mono.dll" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)"/>
         <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ExportDir)/$(TargetName)/" />
         <Copy SourceFiles="ReadMe.md;$(TargetPath);$(TargetDir)/$(TargetName).pdb" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
         <Copy SourceFiles="$(LocalRefs)/0Harmony.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/"/>
