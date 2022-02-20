@@ -27,6 +27,7 @@
         <Copy SourceFiles="$(TargetPath);$(TargetDir)/$(TargetName).pdb" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)/" />
         <Copy SourceFiles="$(LocalRefs)/0Harmony.dll" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)"/>
         <Copy SourceFiles="$(LocalRefs)/UnityExplorer.STANDALONE.Mono.dll" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)"/>
+        <Copy SourceFiles="$(LocalRefs)/UniverseLib.Mono.dll" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)"/>
         <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ExportDir)/$(TargetName)/" />
         <Copy SourceFiles="ReadMe.md;$(TargetPath);$(TargetDir)/$(TargetName).pdb" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
         <Copy SourceFiles="$(LocalRefs)/0Harmony.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/"/>
