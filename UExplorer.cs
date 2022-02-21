@@ -51,9 +51,10 @@ namespace UExplorer
             var mousePos = Input.mousePosition;
             mousePos.z = cam.WorldToScreenPoint(Vector3.zero).z;
             var worldPos = cam.ScreenToWorldPoint(mousePos);
-            var hit = Physics2D.OverlapPointAll(worldPos, Physics2D.AllLayers).FirstOrDefault(x =>
-                x.transform.position.z > 0);
-
+            var hits = Physics2D.OverlapPointAll(worldPos, Physics2D.AllLayers);
+            var hit = hits.FirstOrDefault(x => x.transform.position.z > 0)
+                 ?? hits.LastOrDefault();
+            
             if (hit == null)
             {
                 //if (ReflectionHelper.GetField<WorldInspector, GameObject>(self, "lastHitObject") != null)
