@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Modding;
+using MonoMod.RuntimeDetour.HookGen;
+using System;
 using System.Linq;
 using System.Reflection;
-using Modding;
 using UnityEngine;
 using UnityExplorer;
-using MonoMod.RuntimeDetour.HookGen;
 using UnityExplorer.Inspectors;
 using UnityExplorer.Inspectors.MouseInspectors;
 
@@ -23,15 +23,18 @@ namespace UExplorer
         public override void Initialize()
         {
             Instance = this;
-            if(UEobject == null){
+            if (UEobject == null)
+            {
                 UEobject = new GameObject("Unity Explorer Silent Object");
                 GameObject.DontDestroyOnLoad(UEobject);
                 UEobject.AddComponent<KeyboardMono>();
             }
         }
 
-        internal void InitExplorer(){
-            if(!isInitialized){
+        internal void InitExplorer()
+        {
+            if (!isInitialized)
+            {
                 isInitialized = true;
                 ExplorerStandalone.CreateInstance();
                 ExplorerStandalone.OnLog += OnLog;
@@ -69,7 +72,7 @@ namespace UExplorer
             var hits = Physics2D.OverlapPointAll(worldPos, Physics2D.AllLayers);
             var hit = hits.FirstOrDefault(x => x.transform.position.z > 0)
                  ?? hits.LastOrDefault();
-            
+
             if (hit == null)
             {
                 //if (ReflectionHelper.GetField<WorldInspector, GameObject>(self, "lastHitObject") != null)
