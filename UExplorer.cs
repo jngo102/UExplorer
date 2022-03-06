@@ -16,12 +16,27 @@ namespace UExplorer
 
         public UExplorer() : base("Unity Explorer") { }
 
+        private GameObject UEobject;
+        internal static UExplorer Instance;
+        private bool isInitialized = false;
+
         public override void Initialize()
         {
-            ExplorerStandalone.CreateInstance();
-            ExplorerStandalone.OnLog += OnLog;
+            Instance = this;
+            if(UEobject == null){
+                UEobject = new GameObject("Unity Explorer Silent Object");
+                GameObject.DontDestroyOnLoad(UEobject);
+                UEobject.AddComponent<KeyboardMono>();
+            }
+        }
 
-            PatchWorldInspector();
+        internal void InitExplorer(){
+            if(!isInitialized){
+                isInitialized = true;
+                ExplorerStandalone.CreateInstance();
+                ExplorerStandalone.OnLog += OnLog;
+                PatchWorldInspector();
+            }
         }
 
         //private static IDetour detour_UpdateMouseInspect;
