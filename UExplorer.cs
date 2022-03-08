@@ -45,7 +45,7 @@ namespace UExplorer
         //private static IDetour detour_UpdateMouseInspect;
         private static MethodInfo methodInfo_OnHitGameObject = typeof(WorldInspector)
             .GetMethod("OnHitGameObject", BindingFlags.Instance | BindingFlags.NonPublic);
-        private static MethodInfo methodInfo_ClearHitData = typeof(InspectUnderMouse)
+        private static MethodInfo methodInfo_ClearHitData = typeof(MouseInspector)
             .GetMethod("ClearHitData", BindingFlags.Instance | BindingFlags.NonPublic);
         private static void PatchWorldInspector()
         {
@@ -58,12 +58,12 @@ namespace UExplorer
 
         }
         private static void UpdateMouseInspectHook(Action<WorldInspector, Vector2> _,
-             WorldInspector self, Vector2 _1)
+            WorldInspector self, Vector2 _1)
         {
             var cam = Camera.main;
             if (cam == null)
             {
-                InspectUnderMouse.Instance.StopInspect();
+                MouseInspector.Instance.StopInspect();
                 return;
             }
             var mousePos = Input.mousePosition;
@@ -71,13 +71,12 @@ namespace UExplorer
             var worldPos = cam.ScreenToWorldPoint(mousePos);
             var hits = Physics2D.OverlapPointAll(worldPos, Physics2D.AllLayers);
             var hit = hits.FirstOrDefault(x => x.transform.position.z > 0)
-                 ?? hits.LastOrDefault();
-
+                ?? hits.LastOrDefault();
             if (hit == null)
             {
                 //if (ReflectionHelper.GetField<WorldInspector, GameObject>(self, "lastHitObject") != null)
                 //{
-                methodInfo_ClearHitData.Invoke(InspectUnderMouse.Instance, Array.Empty<object>());
+                methodInfo_ClearHitData.Invoke(MouseInspector.Instance, Array.Empty<object>());
                 //}
             }
             else

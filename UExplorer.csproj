@@ -13,7 +13,7 @@
         <LangVersion>latest</LangVersion>
         <!-- Change this to the path of your modded HK installation -->
         <!-- <HollowKnightRefs>/home/jngo102/.local/share/Steam/steamapps/common/Hollow%20Knight/hollow_knight_Data/Managed</HollowKnightRefs>-->
-        <HollowKnightRefs>F:\SteamLibrary\steamapps\common\Hollow Knight\hollow_knight_Data\Managed</HollowKnightRefs>
+        <HollowKnightRefs>E:\SteamLibrary\steamapps\common\Hollow Knight\hollow_knight_Data\Managed</HollowKnightRefs>
         <LocalRefs>References/</LocalRefs>
         <!-- Change this to the path where you want the ready-to-upload exports to be -->
         <!--<ExportDir>/home/jngo102/HK/Mods/HollowKnight</ExportDir> -->
