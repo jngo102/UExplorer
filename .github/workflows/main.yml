@@ -47,12 +47,12 @@ jobs:
       - name: Get SHA256 of zipped mod
         id: get_hash
         run: |
-          echo '::set-output name=SHA256::$(sha256sum Output/UExplorer/UExplorer.zip | cut -d " " -f 1)'
+          echo 'RELEASE_SHA256=$(sha256sum Output/UExplorer/UExplorer.zip | cut -d " " -f 1)' >> $GITHUB_ENV
 
       - name: Generate tag
         id: create_tag
         run: |
-          echo '::set-output name=TAG::$(echo $RANDOM | md5sum | head -c 20; echo)'
+          echo 'RELEASE_TAG=$(echo $RANDOM | md5sum | head -c 20; echo)' >> $GITHUB_ENV
 
       - name: Create release
         id: create_release
@@ -60,9 +60,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.create_tag.outputs.TAG }}
+          tag_name: ${{ env.RELEASE_TAG }}
           release_name: Release ${{ github.ref }}
-          body: "SHA256: ${{ steps.get_hash.outputs.SHA256 }}"
+          body: "SHA256: ${{ env.RELEASE_SHA256 }}"
           draft: false
           prerelease: false
 
