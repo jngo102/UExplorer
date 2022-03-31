@@ -52,7 +52,7 @@ jobs:
       - name: Generate tag
         id: create_tag
         run: |
-          echo '::set-output name=TAG::echo $RANDOM | md5sum | head -c 20; echo'
+          echo '::set-output name=TAG::$(echo $RANDOM | md5sum | head -c 20; echo)'
 
       - name: Create release
         id: create_release
