@@ -47,13 +47,13 @@ jobs:
       - name: Get SHA256 of zipped mod
         id: get_hash
         run: |
-          RELEASE_SHA256=$(sha256sum Output/UExplorer/UExplorer.zip | cut -d " " -f 1);
+          RELEASE_SHA256=$(sha256sum Output/UExplorer/UExplorer.zip | cut -d " " -f 1)
           echo $RELEASE_SHA256 >> $GITHUB_ENV
 
       - name: Generate tag
         id: create_tag
         run: |
-          RELEASE_TAG=$(echo $RANDOM | md5sum | head -c 20; echo);
+          RELEASE_TAG=$(echo $RANDOM | md5sum | head -c 20; echo)
           echo $RELEASE_TAG >> $GITHUB_ENV
 
       - name: Create release
