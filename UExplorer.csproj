@@ -1,88 +1,70 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <RootNamespace>UExplorer</RootNamespace>
-        <AssemblyName>UExplorer</AssemblyName>
-        <TargetFramework>net472</TargetFramework>
-        <AssemblyTitle>UExplorer</AssemblyTitle>
-        <Product>UExplorer</Product>
-        <Description>A Hollow Knight Mod</Description>
-        <Copyright>Copyright © Jason Ngo 2021</Copyright>
-        <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        <FileVersion>1.0.0.0</FileVersion>
-        <OutputPath>bin\$(Configuration)\</OutputPath>
-        <LangVersion>latest</LangVersion>
-        <!-- Change this to the path of your modded HK installation -->
-        <HollowKnightRefs>/home/jngo102/.local/share/Steam/steamapps/common/Hollow%20Knight/hollow_knight_Data/Managed</HollowKnightRefs>
-        <!-- <HollowKnightRefs>F:\SteamLibrary\steamapps\common\Hollow Knight\hollow_knight_Data\Managed</HollowKnightRefs>-->
-        <LocalRefs>References/</LocalRefs>
-        <!-- Change this to the path where you want the ready-to-upload exports to be -->
-        <ExportDir>/home/jngo102/HK/Mods/HollowKnight</ExportDir>
-        <!-- <ExportDir>Output</ExportDir> -->
-    </PropertyGroup>
-    <Target Name="CopyMod" AfterTargets="PostBuildEvent">
-        <RemoveDir Directories="$(ExportDir)/$(TargetName)/" />
-        <MakeDir Directories="$(ExportDir)/$(TargetName)/" />
-        <MakeDir Directories="$(ExportDir)/$(TargetName)/zip/" />
-        <MakeDir Condition="!Exists('$(HollowKnightRefs)/Mods/$(TargetName)/')" Directories="$(HollowKnightRefs)/Mods/$(TargetName)/" />
-        <Copy SourceFiles="$(TargetPath);$(TargetDir)/$(TargetName).pdb" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)/" />
-        <Copy SourceFiles="$(LocalRefs)/0Harmony.dll" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)"/>
-        <Copy SourceFiles="$(LocalRefs)/UnityExplorer.STANDALONE.Mono.dll" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)"/>
-        <Copy SourceFiles="$(LocalRefs)/UniverseLib.Mono.dll" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)"/>
-        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ExportDir)/$(TargetName)/" />
-        <Copy SourceFiles="ReadMe.md;$(TargetPath);$(TargetDir)/$(TargetName).pdb" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
-        <Copy SourceFiles="$(LocalRefs)/0Harmony.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/"/>
-        <Copy SourceFiles="$(LocalRefs)/UnityExplorer.STANDALONE.Mono.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/"/>
-        <Copy SourceFiles="$(LocalRefs)/UniverseLib.Mono.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/"/>
-        
-        <ZipDirectory SourceDirectory="$(ExportDir)/$(TargetName)/zip/" DestinationFile="$(ExportDir)/$(TargetName)/$(TargetName).zip" />
-        <RemoveDir Directories="$(ExportDir)/$(TargetName)/zip/" />
+  <PropertyGroup>
+    <RootNamespace>UExplorer</RootNamespace>
+    <AssemblyName>UExplorer</AssemblyName>
+    <TargetFramework>net472</TargetFramework>
+    <AssemblyTitle>UExplorer</AssemblyTitle>
+    <Product>UExplorer</Product>
+    <Description>Unity Explorer wrapper</Description>
+    <Copyright>Copyright © jngo102, HKLab 2022</Copyright>
+    <AssemblyVersion>1.0.0.2</AssemblyVersion>
+    <FileVersion>1.0.0.2</FileVersion>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <LangVersion>latest</LangVersion>
+    <LocalRefs>References/</LocalRefs>
+    <ExportDir>Output</ExportDir>
+  </PropertyGroup>
+  <Target Name="CopyMod" AfterTargets="PostBuildEvent">
+    <RemoveDir Directories="$(ExportDir)/$(TargetName)/" />
+    <MakeDir Directories="$(ExportDir)/$(TargetName)/" />
+    <MakeDir Directories="$(ExportDir)/$(TargetName)/zip/" />
+    <MakeDir Condition="!Exists('$(HollowKnightRefs)/Mods/$(TargetName)/')" Directories="$(HollowKnightRefs)/Mods/$(TargetName)/" />
+    <Copy SourceFiles="$(TargetPath);$(TargetDir)/$(TargetName).pdb" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)/" />
+    <Copy SourceFiles="$(LocalRefs)/0Harmony.dll" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)" />
+    <Copy SourceFiles="$(LocalRefs)/UnityExplorer.STANDALONE.Mono.dll" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)" />
+    <Copy SourceFiles="$(LocalRefs)/UniverseLib.Mono.dll" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ExportDir)/$(TargetName)/" />
+    <Copy SourceFiles="ReadMe.md;$(TargetPath);$(TargetDir)/$(TargetName).pdb" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
+    <Copy SourceFiles="$(LocalRefs)/0Harmony.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
+    <Copy SourceFiles="$(LocalRefs)/UnityExplorer.STANDALONE.Mono.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
+    <Copy SourceFiles="$(LocalRefs)/UniverseLib.Mono.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
 
-        <GetFileHash Files="$(ExportDir)/$(TargetName)/$(TargetName).zip" Algorithm="SHA256">
-            <Output TaskParameter="Items" ItemName="FilesWithHashes" />
-        </GetFileHash>
-        <WriteLinesToFile File="$(ExportDir)/$(TargetName)/SHA.txt" Lines="@(FilesWithHashes->'%(FileHash)')" Overwrite="true" Encoding="UTF-8" />
-        
-        <!-- <Exec Command="steam steam://rungameid/367520" /> -->
-    </Target>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-        <!-- Uncomment this to enabled strong name key signing for releases -->
-        <!--SignAssembly>true</SignAssembly>
-        <AssemblyOriginatorKeyFile>sgKey.snk</AssemblyOriginatorKeyFile-->
-    </PropertyGroup>
-    <ItemGroup>
-        <Reference Include="Mono.Cecil">
-            <HintPath>$(HollowKnightRefs)/Mono.Cecil.dll</HintPath>
-        </Reference>
-        <Reference Include="MonoMod.RuntimeDetour">
-            <HintPath>$(HollowKnightRefs)/MonoMod.RuntimeDetour.dll</HintPath>
-        </Reference>
-        <Reference Include="Assembly-CSharp">
-            <HintPath>$(HollowKnightRefs)/Assembly-CSharp.dll</HintPath>
-        </Reference>
-        <Reference Include="UnityEngine">
-            <HintPath>$(HollowKnightRefs)/UnityEngine.dll</HintPath>
-        </Reference>
-        <Reference Include="UnityEngine.CoreModule">
-            <HintPath>$(HollowKnightRefs)/UnityEngine.CoreModule.dll</HintPath>
-        </Reference>
-        <Reference Include="UnityEngine.Physics2DModule">
-            <HintPath>$(HollowKnightRefs)/UnityEngine.Physics2DModule.dll</HintPath>
-        </Reference>
-        <Reference Include="UnityEngine.InputLegacyModule">
-            <HintPath>$(HollowKnightRefs)/UnityEngine.InputLegacyModule.dll</HintPath>
-        </Reference>
-        <Reference Include="UnityExplorer.STANDALONE.Mono">
-            <HintPath>References/UnityExplorer.STANDALONE.Mono.dll</HintPath>
-        </Reference>
-        <Reference Include="UniverseLib.Mono">
-            <HintPath>References/UniverseLib.Mono.dll</HintPath>
-        </Reference>
-    </ItemGroup>
-    <ItemGroup>
-        <None Include=".gitignore" />
-        <None Include="ReadMe.md" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="References" />
-    </ItemGroup>
+    <ZipDirectory SourceDirectory="$(ExportDir)/$(TargetName)/zip/" DestinationFile="$(ExportDir)/$(TargetName)/$(TargetName).zip" />
+    <RemoveDir Directories="$(ExportDir)/$(TargetName)/zip/" />
+
+    <GetFileHash Files="$(ExportDir)/$(TargetName)/$(TargetName).zip" Algorithm="SHA256">
+      <Output TaskParameter="Items" ItemName="FilesWithHashes" />
+    </GetFileHash>
+    <WriteLinesToFile File="$(ExportDir)/$(TargetName)/SHA.txt" Lines="@(FilesWithHashes->'%(FileHash)')" Overwrite="true" Encoding="UTF-8" />
+  </Target>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(LocalRefs)/Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>$(LocalRefs)/Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoMod.RuntimeDetour">
+      <HintPath>$(LocalRefs)/MonoMod.RuntimeDetour.dll</HintPath>
+    </Reference>
+    <PackageReference Include="UnityEngine.Modules" Version="2020.2.2" IncludeAssets="compile" />
+    <Reference Include="UnityExplorer.STANDALONE.Mono">
+      <HintPath>$(LocalRefs)/UnityExplorer.STANDALONE.Mono.dll</HintPath>
+    </Reference>
+    <Reference Include="UniverseLib.Mono">
+      <HintPath>$(LocalRefs)/UniverseLib.Mono.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitignore" />
+    <None Include="ReadMe.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="References" />
+  </ItemGroup>
 </Project>

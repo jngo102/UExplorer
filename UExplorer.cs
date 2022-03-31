@@ -12,7 +12,7 @@ namespace UExplorer
 {
     public class UExplorer : Mod
     {
-        public override string GetVersion() => "1.0.0.0";
+        public override string GetVersion() => "1.0.0.2";
 
         public UExplorer() : base("Unity Explorer") { }
 
@@ -37,7 +37,6 @@ namespace UExplorer
                 new Action<Action<WorldInspector, Vector2>, WorldInspector, Vector2>(UpdateMouseInspectHook));
             /*detour_UpdateMouseInspect = new Hook(MUpdateMouseInspect,
                 typeof(UExplorer).GetMethod("UpdateMouseInspectHook", BindingFlags.Static | BindingFlags.NonPublic));*/
-
         }
         private static void UpdateMouseInspectHook(Action<WorldInspector, Vector2> _,
              WorldInspector self, Vector2 _1)
