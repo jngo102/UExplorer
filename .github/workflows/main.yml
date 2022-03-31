@@ -13,15 +13,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       
-      - name: Fetch API files
+      - name: Fetch Unity Engine modules
         run: |
           wget https://files.catbox.moe/i4sdl6.zip -O UnityModules.zip
           unzip UnityModules.zip -d References
 
-      - name: Fetch Unity Engine modules
+      - name: Fetch API files
         run: |
           wget https://github.com/hk-modding/api/releases/latest/download/ModdingApiWin.zip -O API.zip
-          unzip API.zip -o -d References
+          unzip -o API.zip -d References
 
       - name: Fetch Unity Explorer files
         run: |
