@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Modding;
+using MonoMod.RuntimeDetour.HookGen;
+using System;
 using System.Linq;
 using System.Reflection;
-using Modding;
 using UnityEngine;
 using UnityExplorer;
-using MonoMod.RuntimeDetour.HookGen;
 using UnityExplorer.Inspectors;
 using UnityExplorer.Inspectors.MouseInspectors;
 
@@ -16,18 +16,36 @@ namespace UExplorer
 
         public UExplorer() : base("Unity Explorer") { }
 
+        private GameObject UEobject;
+        internal static UExplorer Instance;
+        private bool isInitialized = false;
+
         public override void Initialize()
         {
-            ExplorerStandalone.CreateInstance();
-            ExplorerStandalone.OnLog += OnLog;
+            Instance = this;
+            if (UEobject == null)
+            {
+                UEobject = new GameObject("Unity Explorer Silent Object");
+                GameObject.DontDestroyOnLoad(UEobject);
+                UEobject.AddComponent<KeyboardMono>();
+            }
+        }
 
-            PatchWorldInspector();
+        internal void InitExplorer()
+        {
+            if (!isInitialized)
+            {
+                isInitialized = true;
+                ExplorerStandalone.CreateInstance();
+                ExplorerStandalone.OnLog += OnLog;
+                PatchWorldInspector();
+            }
         }
 
         //private static IDetour detour_UpdateMouseInspect;
         private static MethodInfo methodInfo_OnHitGameObject = typeof(WorldInspector)
             .GetMethod("OnHitGameObject", BindingFlags.Instance | BindingFlags.NonPublic);
-        private static MethodInfo methodInfo_ClearHitData = typeof(InspectUnderMouse)
+        private static MethodInfo methodInfo_ClearHitData = typeof(MouseInspector)
             .GetMethod("ClearHitData", BindingFlags.Instance | BindingFlags.NonPublic);
         private static void PatchWorldInspector()
         {
@@ -39,25 +57,25 @@ namespace UExplorer
                 typeof(UExplorer).GetMethod("UpdateMouseInspectHook", BindingFlags.Static | BindingFlags.NonPublic));*/
         }
         private static void UpdateMouseInspectHook(Action<WorldInspector, Vector2> _,
-             WorldInspector self, Vector2 _1)
+            WorldInspector self, Vector2 _1)
         {
             var cam = Camera.main;
             if (cam == null)
             {
-                InspectUnderMouse.Instance.StopInspect();
+                MouseInspector.Instance.StopInspect();
                 return;
             }
             var mousePos = Input.mousePosition;
             mousePos.z = cam.WorldToScreenPoint(Vector3.zero).z;
             var worldPos = cam.ScreenToWorldPoint(mousePos);
-            var hit = Physics2D.OverlapPointAll(worldPos, Physics2D.AllLayers).FirstOrDefault(x =>
-                x.transform.position.z > 0);
-
+            var hits = Physics2D.OverlapPointAll(worldPos, Physics2D.AllLayers);
+            var hit = hits.FirstOrDefault(x => x.transform.position.z > 0)
+                ?? hits.LastOrDefault();
             if (hit == null)
             {
                 //if (ReflectionHelper.GetField<WorldInspector, GameObject>(self, "lastHitObject") != null)
                 //{
-                methodInfo_ClearHitData.Invoke(InspectUnderMouse.Instance, Array.Empty<object>());
+                methodInfo_ClearHitData.Invoke(MouseInspector.Instance, Array.Empty<object>());
                 //}
             }
             else

@@ -36,7 +36,10 @@ mono_crash.*
 [Rr]eleases/
 x64/
 x86/
+<<<<<<< HEAD
 [Ww][Ii][Nn]32/
+=======
+>>>>>>> 5fd7b1c123d40c6bba27f200238ee3dcf7eea737
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
@@ -75,9 +78,12 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 
+<<<<<<< HEAD
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt
 
+=======
+>>>>>>> 5fd7b1c123d40c6bba27f200238ee3dcf7eea737
 # StyleCop
 StyleCopReport.xml
 
@@ -103,7 +109,10 @@ StyleCopReport.xml
 *.tmp_proj
 *_wpftmp.csproj
 *.log
+<<<<<<< HEAD
 *.tlog
+=======
+>>>>>>> 5fd7b1c123d40c6bba27f200238ee3dcf7eea737
 *.vspscc
 *.vssscc
 .builds
@@ -155,11 +164,14 @@ _TeamCity*
 .axoCover/*
 !.axoCover/settings.json
 
+<<<<<<< HEAD
 # Coverlet is a free, cross platform Code Coverage Tool
 coverage*.json
 coverage*.xml
 coverage*.info
 
+=======
+>>>>>>> 5fd7b1c123d40c6bba27f200238ee3dcf7eea737
 # Visual Studio code coverage results
 *.coverage
 *.coveragexml
@@ -307,6 +319,7 @@ node_modules/
 # Visual Studio 6 auto-generated workspace file (contains which files were open etc.)
 *.vbw
 
+<<<<<<< HEAD
 # Visual Studio 6 auto-generated project file (contains which files were open etc.)
 *.vbp
 
@@ -318,6 +331,8 @@ node_modules/
 *.ncb
 *.aps
 
+=======
+>>>>>>> 5fd7b1c123d40c6bba27f200238ee3dcf7eea737
 # Visual Studio LightSwitch build output
 **/*.HTMLClient/GeneratedArtifacts
 **/*.DesktopClient/GeneratedArtifacts
@@ -374,9 +389,12 @@ ASALocalRun/
 # Local History for Visual Studio
 .localhistory/
 
+<<<<<<< HEAD
 # Visual Studio History (VSHistory) files
 .vshistory/
 
+=======
+>>>>>>> 5fd7b1c123d40c6bba27f200238ee3dcf7eea737
 # BeatPulse healthcheck temp database
 healthchecksdb
 
@@ -386,6 +404,7 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
+<<<<<<< HEAD
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
