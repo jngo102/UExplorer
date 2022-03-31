@@ -31,15 +31,13 @@
     <Copy SourceFiles="$(LocalRefs)/0Harmony.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
     <Copy SourceFiles="$(LocalRefs)/UnityExplorer.STANDALONE.Mono.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
     <Copy SourceFiles="$(LocalRefs)/UniverseLib.Mono.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
-    <ZipDirectory SourceDirectory="$(ExportDir)/$(TargetName)/zip/" DzestinationFile="$(ExportDir)/$(TargetName)/$(TargetName).zip" />
+    <ZipDirectory SourceDirectory="$(ExportDir)/$(TargetName)/zip/" DestinationFile="$(ExportDir)/$(TargetName)/$(TargetName).zip" />
     <RemoveDir Directories="$(ExportDir)/$(TargetName)/zip/" />
     <GetFileHash Files="$(ExportDir)/$(TargetName)/$(TargetName).zip" Algorithm="SHA256">
       <Output TaskParameter="Items" ItemName="FilesWithHashes" />
     </GetFileHash>
     <WriteLinesToFile File="$(ExportDir)/$(TargetName)/SHA.txt" Lines="@(FilesWithHashes->'%(FileHash)')" Overwrite="true" Encoding="UTF-8" />
   </Target>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>$(LocalRefs)/Assembly-CSharp.dll</HintPath>
@@ -50,6 +48,18 @@
     <Reference Include="MonoMod.RuntimeDetour">
       <HintPath>$(LocalRefs)/MonoMod.RuntimeDetour.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.dll">
+      <HintPath>$(LocalRefs)/UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule.dll">
+      <HintPath>$(LocalRefs)/UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule.dll">
+      <HintPath>$(LocalRefs)/UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Physics2DModule.dll">
+      <HintPath>$(LocalRefs)/UnityEngine.Physics2DModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityExplorer.STANDALONE.Mono">
       <HintPath>$(LocalRefs)/UnityExplorer.STANDALONE.Mono.dll</HintPath>
     </Reference>
@@ -57,14 +67,8 @@
       <HintPath>$(LocalRefs)/UniverseLib.Mono.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
-  </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="ReadMe.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="References" />
   </ItemGroup>
 </Project>
