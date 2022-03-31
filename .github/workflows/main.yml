@@ -49,13 +49,18 @@ jobs:
         run: |
           echo '::set-output name=SHA256::$(sha256sum Output/UExplorer/UExplorer.zip | cut -d " " -f 1)'
 
+      - name: Generate tag
+        id: create_tag
+        run: |
+          echo '::set-output name=TAG::echo $RANDOM | md5sum | head -c 20; echo'
+
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
+          tag_name: ${{ steps.create_tag.outputs.TAG }}
           release_name: Release ${{ github.ref }}
           body: "SHA256: ${{ steps.get_hash.outputs.SHA256 }}"
           draft: false
