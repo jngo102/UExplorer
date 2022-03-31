@@ -51,7 +51,6 @@
     <Reference Include="MonoMod.RuntimeDetour">
       <HintPath>$(LocalRefs)/MonoMod.RuntimeDetour.dll</HintPath>
     </Reference>
-    <PackageReference Include="UnityEngine.Modules" Version="2020.2.2" IncludeAssets="compile" />
     <Reference Include="UnityExplorer.STANDALONE.Mono">
       <HintPath>$(LocalRefs)/UnityExplorer.STANDALONE.Mono.dll</HintPath>
     </Reference>

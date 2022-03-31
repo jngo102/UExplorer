@@ -15,8 +15,13 @@ jobs:
       
       - name: Fetch API files
         run: |
+          wget https://files.catbox.moe/i4sdl6.zip -O UnityModules.zip
+          unzip UnityModules.zip -d References
+
+      - name: Fetch Unity Engine modules
+        run: |
           wget https://github.com/hk-modding/api/releases/latest/download/ModdingApiWin.zip -O API.zip
-          unzip API.zip -d References
+          unzip API.zip -o -d References
 
       - name: Fetch Unity Explorer files
         run: |
