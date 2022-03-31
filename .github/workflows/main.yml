@@ -34,7 +34,7 @@ jobs:
           sudo apt-get install -y nuget mono-devel mono-xbuild
 
       - name: Restore packages
-        run: nuget restore .\UExplorer.csproj
+        run: nuget restore UExplorer.csproj
 
       - name: Build project
         run: dotnet build --configuration Release
