@@ -30,9 +30,9 @@ jobs:
 
       - name: Fetch 0Harmony file
         run: |
-          wget $(curl -s https://api.github.com/repos/pardeike/Harmony/releases/latest | grep browser_download_url | head -n 1 | cut -d '"' -f 4)
-          unzip Harmony*.zip -d Harmony
-          mv Harmony/net472/0Harmony.dll References/0Harmony.dll
+          wget $(curl -s https://api.github.com/repos/BepInEx/HarmonyX/releases/latest | grep browser_download_url | head -n 1 | cut -d '"' -f 4)
+          unzip HarmonyX*.nupkg -d Harmony
+          mv Harmony/lib/net45/0Harmony.dll References/0Harmony.dll
 
       - name: Setup MSBuild
         run: |

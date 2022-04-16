@@ -31,6 +31,8 @@
     <Copy SourceFiles="$(LocalRefs)/0Harmony.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
     <Copy SourceFiles="$(LocalRefs)/UnityExplorer.STANDALONE.Mono.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
     <Copy SourceFiles="$(LocalRefs)/UniverseLib.Mono.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
+    <Copy SourceFiles="$(LocalRefs)/Tomlet.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
+    <Copy SourceFiles="$(LocalRefs)/mcs.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
     <ZipDirectory SourceDirectory="$(ExportDir)/$(TargetName)/zip/" DestinationFile="$(ExportDir)/$(TargetName)/$(TargetName).zip" />
     <RemoveDir Directories="$(ExportDir)/$(TargetName)/zip/" />
     <GetFileHash Files="$(ExportDir)/$(TargetName)/$(TargetName).zip" Algorithm="SHA256">
