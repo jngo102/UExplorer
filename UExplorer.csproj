@@ -22,7 +22,7 @@
     <PackageReference Include="HarmonyX" Version="2.10.1">
       
     </PackageReference>
-    <PackageReference Include="HKBuildUtils" Version="0.5.35">
+    <PackageReference Include="HKBuildUtils" Version="0.5.52">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
