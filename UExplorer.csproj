@@ -3,74 +3,44 @@
     <RootNamespace>UExplorer</RootNamespace>
     <AssemblyName>UExplorer</AssemblyName>
     <TargetFramework>net472</TargetFramework>
-    <AssemblyTitle>UExplorer</AssemblyTitle>
     <Product>UExplorer</Product>
     <Description>Unity Explorer wrapper</Description>
     <Copyright>Copyright © jngo102, HKLab 2022</Copyright>
-    <AssemblyVersion>1.0.0.2</AssemblyVersion>
-    <FileVersion>1.0.0.2</FileVersion>
-    <OutputPath>bin\$(Configuration)\</OutputPath>
-    <LangVersion>latest</LangVersion>
-    <!-- Change this to the path of your modded HK installation -->
-    <HollowKnightRefs>E:\SteamLibrary\steamapps\common\Hollow Knight\hollow_knight_Data\Managed</HollowKnightRefs>
-    <LocalRefs>References</LocalRefs>
-    <!-- Change this to the path where you want the ready-to-upload exports to be -->
-    <ExportDir>Output</ExportDir>
+    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+    <Version>1.1.0.0</Version>
+    <ModName>Unity Explorer</ModName>
   </PropertyGroup>
-  <Target Name="CopyMod" AfterTargets="PostBuildEvent">
-    <RemoveDir Directories="$(ExportDir)/$(TargetName)/" />
-    <MakeDir Directories="$(ExportDir)/$(TargetName)/" />
-    <MakeDir Directories="$(ExportDir)/$(TargetName)/zip/" />
-    <!--MakeDir Condition="!Exists('$(HollowKnightRefs)/Mods/$(TargetName)/')" Directories="$(HollowKnightRefs)/Mods/$(TargetName)/" />
-    <Copy SourceFiles="$(TargetPath);$(TargetDir)/$(TargetName).pdb" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)/" />
-    <Copy SourceFiles="$(LocalRefs)/0Harmony.dll" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)" />
-    <Copy SourceFiles="$(LocalRefs)/UnityExplorer.STANDALONE.Mono.dll" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)" />
-    <Copy SourceFiles="$(LocalRefs)/UniverseLib.Mono.dll" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)" /-->
-    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ExportDir)/$(TargetName)/" />
-    <Copy SourceFiles="ReadMe.md;$(TargetPath);$(TargetDir)/$(TargetName).pdb" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
-    <Copy SourceFiles="$(LocalRefs)/0Harmony.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
-    <Copy SourceFiles="$(LocalRefs)/UnityExplorer.STANDALONE.Mono.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
-    <Copy SourceFiles="$(LocalRefs)/UniverseLib.Mono.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
-    <!--<Copy SourceFiles="$(LocalRefs)/Tomlet.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
-    <Copy SourceFiles="$(LocalRefs)/mcs.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />-->
-    <ZipDirectory SourceDirectory="$(ExportDir)/$(TargetName)/zip/" DestinationFile="$(ExportDir)/$(TargetName)/$(TargetName).zip" />
-    <RemoveDir Directories="$(ExportDir)/$(TargetName)/zip/" />
-    <GetFileHash Files="$(ExportDir)/$(TargetName)/$(TargetName).zip" Algorithm="SHA256">
-      <Output TaskParameter="Items" ItemName="FilesWithHashes" />
-    </GetFileHash>
-    <WriteLinesToFile File="$(ExportDir)/$(TargetName)/SHA.txt" Lines="@(FilesWithHashes->'%(FileHash)')" Overwrite="true" Encoding="UTF-8" />
-  </Target>
-  <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>$(LocalRefs)/Assembly-CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil">
-      <HintPath>$(LocalRefs)/Mono.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoMod.RuntimeDetour">
-      <HintPath>$(LocalRefs)/MonoMod.RuntimeDetour.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.dll">
-      <HintPath>$(LocalRefs)/UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule.dll">
-      <HintPath>$(LocalRefs)/UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.InputLegacyModule.dll">
-      <HintPath>$(LocalRefs)/UnityEngine.InputLegacyModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Physics2DModule.dll">
-      <HintPath>$(LocalRefs)/UnityEngine.Physics2DModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityExplorer.STANDALONE.Mono">
-      <HintPath>$(LocalRefs)/UnityExplorer.STANDALONE.Mono.dll</HintPath>
-    </Reference>
-    <Reference Include="UniverseLib.Mono">
-      <HintPath>$(LocalRefs)/UniverseLib.Mono.dll</HintPath>
-    </Reference>
-  </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="ReadMe.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Fody" Version="6.6.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="HarmonyX" Version="2.10.1">
+      
+    </PackageReference>
+    <PackageReference Include="HKBuildUtils" Version="0.5.35">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <Reference Remove="System" />
+    <Reference Include="./References/*.dll">
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <MonoModHook Include="UnityExplorer.STANDALONE.Mono" />
+
+    <ReflectHelper Include="UnityExplorer.STANDALONE.Mono" />
+
+    <MAPIExcludeFiles Include="System" />
+
+    <OutputFiles Include="0Harmony.dll" />
+    <OutputFiles Include="UnityExplorer.STANDALONE.Mono.dll" />
+    <OutputFiles Include="UniverseLib.Mono.dll" />
   </ItemGroup>
 </Project>

@@ -12,7 +12,7 @@ namespace UExplorer
 {
     public class UExplorer : Mod
     {
-        public override string GetVersion() => "1.0.0.2";
+        public override string GetVersion() => typeof(ExplorerStandalone).Assembly.GetName().Version.ToString();
 
         public UExplorer() : base("Unity Explorer") { }
 
@@ -42,22 +42,14 @@ namespace UExplorer
             }
         }
 
-        //private static IDetour detour_UpdateMouseInspect;
-        private static MethodInfo methodInfo_OnHitGameObject = typeof(WorldInspector)
-            .GetMethod("OnHitGameObject", BindingFlags.Instance | BindingFlags.NonPublic);
-        private static MethodInfo methodInfo_ClearHitData = typeof(MouseInspector)
-            .GetMethod("ClearHitData", BindingFlags.Instance | BindingFlags.NonPublic);
         private static void PatchWorldInspector()
         {
-            var MUpdateMouseInspect = typeof(WorldInspector)
-                .GetRuntimeMethod("UpdateMouseInspect", new Type[] { typeof(Vector2) });
-            HookEndpointManager.Add(MUpdateMouseInspect,
-                new Action<Action<WorldInspector, Vector2>, WorldInspector, Vector2>(UpdateMouseInspectHook));
-            /*detour_UpdateMouseInspect = new Hook(MUpdateMouseInspect,
-                typeof(UExplorer).GetMethod("UpdateMouseInspectHook", BindingFlags.Static | BindingFlags.NonPublic));*/
+  
+            On.UnityExplorer.Inspectors.MouseInspectors.WorldInspector.UpdateMouseInspect += WorldInspector_UpdateMouseInspect;
         }
-        private static void UpdateMouseInspectHook(Action<WorldInspector, Vector2> _,
-            WorldInspector self, Vector2 _1)
+
+        private static void WorldInspector_UpdateMouseInspect(On.UnityExplorer.Inspectors.MouseInspectors.WorldInspector.orig_UpdateMouseInspect orig, 
+            WorldInspector self, Vector2 _)
         {
             var cam = Camera.main;
             if (cam == null)
@@ -73,14 +65,11 @@ namespace UExplorer
                 ?? hits.LastOrDefault();
             if (hit == null)
             {
-                //if (ReflectionHelper.GetField<WorldInspector, GameObject>(self, "lastHitObject") != null)
-                //{
-                methodInfo_ClearHitData.Invoke(MouseInspector.Instance, Array.Empty<object>());
-                //}
+                MouseInspectorR.Instance.ClearHitData();
             }
             else
             {
-                methodInfo_OnHitGameObject.Invoke(self, new object[] { hit.gameObject });
+                self.Reflect().OnHitGameObject(hit.gameObject);
             }
         }
 
